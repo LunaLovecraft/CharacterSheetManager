@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Character Manager</title>
+</head>
+<body>
+<div style="cursor: pointer; text-decoration: underline" onclick="UpdateList()">Click To Update List</div>
+<div style="cursor: pointer; text-decoration: underline" onclick="AddCharacter()">Click To Add Character</div>
+<div id="characters">
+
+</div>
+<div id="output">
+</div>
+<div id="input">
+
+</div>
+</body>
+<script>// Temporary setup just to test all the functionality
+// of the API.  Will be moved to external script.
+var characterRequest = new XMLHttpRequest();
+var characterListRequest = new XMLHttpRequest();
+var inputRequest = new XMLHttpRequest();
+
+var url = "/character?id=";
+var characterListUrl = "/characters";
+
+// Response when a specific character's details is requested from the server.
+characterRequest.onreadystatechange = function(){
+  if(characterRequest.readyState === XMLHttpRequest.DONE 
+    && characterRequest.status === 200){
+    var character = JSON.parse(characterRequest.responseText);
+	
+	var output = "";
+	
+	output += '<h2>' + character.name + '</h2>';
+	output += '<h3><i>' + character.class + '</i></h3>';
+	output += '<li>Strength: ' + character.str + '</li>';
+	output += '<li>Dexterity: ' + character.dex + '</li>';
+	output += '<li>Consitution: ' + character.con + '</li>';
+	output += '<li>Intelligence: ' + character.int + '</li>';
+	output += '<li>Wisdom: ' + character.wis + '</li>';
+	output += '<li>Charisma: ' + character.cha + '</li>';
+	output += '<li>Power: ' + character.power + '</li>';
+	output += '<li>Alignment1: ' + character.alignment1 + '</li>';
+	output += '<li>Alignment2: ' + character.alignment2 + '</li>';
+	output += '<p>Description: ' + character.description + '</p>';
+	
+	document.getElementById("output").innerHTML = output;
+  }
+};
+
+// Reponse when asking for just the listing of characters
+characterListRequest.onreadystatechange = function(){
+  if(characterListRequest.readyState === XMLHttpRequest.DONE 
+    && characterListRequest.status === 200){
+    var characterList = JSON.parse(characterListRequest.responseText);
+	
+	var output = "";
+	for( var i = 0; i < characterList.length; ++i){
+	  output += '<li class="characterButton" style="cursor: pointer; text-decoration: underline" onclick="characterRequester('
+	  + characterList[i].id + ')">' + characterList[i].name + '</li>'
+	}
+	
+	
+	document.getElementById("characters").innerHTML = output;
+  }
+};
+
+function characterRequester(id){
+characterRequest.open("GET", url + id, true);
+characterRequest.send();
+}
+
+function submit(){
+  var output = "";
+  
+  output += "name=newName&";
+  output += "class=newClass&";
+  output += "str=newStr&";
+  output += "con=newCon&";
+  output += "int=newInt&";
+  output += "wis=newWis&";
+  output += "cha=newCha&";
+  output += "power=newPower&";
+  output += "alignment1=newAlignment1&";
+  output += "alignment2=newAlignment2&";
+  output += "description=newDescription";
+
+  inputRequest.open('POST', '/input');
+  inputRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  inputRequest.send(output);
+  
+}
+
+function AddCharacter(){
+  submit();
+}
+
+function UpdateList(){
+  characterListRequest.open("GET", characterListUrl, true);
+  characterListRequest.send();
+}
+
+</script>

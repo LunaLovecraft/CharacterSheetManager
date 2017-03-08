@@ -1,0 +1,18 @@
+{
+  "name": "rich_media_project_1",
+  "version": "1.0.0",
+  "description": "First rich media project",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./src/server.js",
+	"pretest": "eslint ./src --fix",
+    "test": "echo \"Tests complete\""
+	},
+  "author": "Luna Meier",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^3.17.1",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0"
+  }
+}
