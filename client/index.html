@@ -5,56 +5,90 @@
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
+<div id="filter">
+Filter: 
+<select id="s_select" name="filter">
+<option value="none">No Filter</option>
+<option value="name">Name</option>
+<option value="class">Class</option>
+<option value="str">Strength</option>
+<option value="dex">Dexterity</option>
+<option value="con">Constitution</option>
+<option value="int">Intelligence</option>
+<option value="wis">Wisdom</option>
+<option value="cha">Charisma</option>
+<option value="power">Power</option>
+<option value="alignment2">Order</option>
+<option value="alignment1">Morality</option>
+</select><br>
+
+Search For: <input type="text" id="s_search" name="class"><br>
+</div>
 <div class="button" onclick="UpdateList()">Click To Refresh List</div>
-<div class="button" onclick="OpenForm()">Click To Add A Character</div>
 <div id="characters">
 </div>
 <div id="output" class="hidden">
 </div>
+<div class="button" onclick="OpenForm()">Click To Add A Character</div>
 <div id="input" class="hidden">
 Name: <input type="text" id="f_name" name="name"><br>
 Class: <input type="text" id="f_class" name="class"><br>
+<div class="inputBox">
 Strength:<br>
 <input type="radio" id="f_str_0" name="str" value="LOW">LOW<br>
 <input type="radio" id="f_str_1" name="str" value="AVERAGE">AVERAGE<br>
 <input type="radio" id="f_str_2" name="str" value="HIGH">HIGH<br>
-Dexterity:<br>
-<input type="radio" id="f_dex_0" name="dex" value="LOW">LOW<br>
-<input type="radio" id="f_dex_1" name="dex" value="AVERAGE">AVERAGE<br>
-<input type="radio" id="f_dex_2" name="dex" value="HIGH">HIGH<br>
-Constitution:<br>
-<input type="radio" id="f_con_0" name="con" value="LOW">LOW<br>
-<input type="radio" id="f_con_1" name="con" value="AVERAGE">AVERAGE<br>
-<input type="radio" id="f_con_2" name="con" value="HIGH">HIGH<br>
+<br>
 Intelligence:<br>
 <input type="radio" id="f_int_0" name="int" value="LOW">LOW<br>
 <input type="radio" id="f_int_1" name="int" value="AVERAGE">AVERAGE<br>
 <input type="radio" id="f_int_2" name="int" value="HIGH">HIGH<br>
-Wisdom:<br>
-<input type="radio" id="f_wis_0" name="wis" value="LOW">LOW<br>
-<input type="radio" id="f_wis_1" name="wis" value="AVERAGE">AVERAGE<br>
-<input type="radio" id="f_wis_2" name="wis" value="HIGH">HIGH<br>
-Charisma:<br>
-<input type="radio" id="f_cha_0" name="cha" value="LOW">LOW<br>
-<input type="radio" id="f_cha_1" name="cha" value="AVERAGE">AVERAGE<br>
-<input type="radio" id="f_cha_2" name="cha" value="HIGH">HIGH<br>
+<br>
 Power Level:<br>
 <input type="radio" id="f_power_0" name="power" value="LOW">LOW<br>
 <input type="radio" id="f_power_1" name="power" value="AVERAGE">AVERAGE<br>
 <input type="radio" id="f_power_2" name="power" value="HIGH">HIGH<br>
-Morality:<br>
-<input type="radio" id="f_align1_0" name="alignment1" value="GOOD">GOOD<br>
-<input type="radio" id="f_align1_1" name="alignment1" value="NEUTRAL">NEUTRAL<br>
-<input type="radio" id="f_align1_2" name="alignment1" value="EVIL">EVIL<br>
+
+</div>
+<div class="inputBox">
+Dexterity:<br>
+<input type="radio" id="f_dex_0" name="dex" value="LOW">LOW<br>
+<input type="radio" id="f_dex_1" name="dex" value="AVERAGE">AVERAGE<br>
+<input type="radio" id="f_dex_2" name="dex" value="HIGH">HIGH<br>
+<br>
+Wisdom:<br>
+<input type="radio" id="f_wis_0" name="wis" value="LOW">LOW<br>
+<input type="radio" id="f_wis_1" name="wis" value="AVERAGE">AVERAGE<br>
+<input type="radio" id="f_wis_2" name="wis" value="HIGH">HIGH<br>
+<br>
 Order:<br>
 <input type="radio" id="f_align2_0" name="alignment2" value="LAWFUL">LAWFUL<br>
 <input type="radio" id="f_align2_1" name="alignment2" value="NEUTRAL">NEUTRAL<br>
 <input type="radio" id="f_align2_2" name="alignment2" value="CHAOTIC">CHAOTIC<br>
+</div>
+<div class="inputBox">
+Constitution:<br>
+<input type="radio" id="f_con_0" name="con" value="LOW">LOW<br>
+<input type="radio" id="f_con_1" name="con" value="AVERAGE">AVERAGE<br>
+<input type="radio" id="f_con_2" name="con" value="HIGH">HIGH<br>
+<br>
+Charisma:<br>
+<input type="radio" id="f_cha_0" name="cha" value="LOW">LOW<br>
+<input type="radio" id="f_cha_1" name="cha" value="AVERAGE">AVERAGE<br>
+<input type="radio" id="f_cha_2" name="cha" value="HIGH">HIGH<br>
+<br>
+Morality:<br>
+<input type="radio" id="f_align1_0" name="alignment1" value="GOOD">GOOD<br>
+<input type="radio" id="f_align1_1" name="alignment1" value="NEUTRAL">NEUTRAL<br>
+<input type="radio" id="f_align1_2" name="alignment1" value="EVIL">EVIL<br>
+</div>
+<br>
 Description:<br>
 <input type="text" id="f_desc" name="description"><br>
 
 <div class="button" onclick="AddCharacter()">Click To Submit</div>
 </div>
-</body>
 
+
+</body>
 <script src="client.js"></script>

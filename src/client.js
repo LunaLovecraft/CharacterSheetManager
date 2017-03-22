@@ -1,8 +1,9 @@
 const characterRequest = new XMLHttpRequest();
 const characterListRequest = new XMLHttpRequest();
 const inputRequest = new XMLHttpRequest();
-const url = '/character?id=';
+const characterUrl = '/character?id=';
 const characterListUrl = '/characters';
+
 // Response when a specific character's details is requested from the server.
 characterRequest.onreadystatechange = () => {
   if (characterRequest.readyState === XMLHttpRequest.DONE
@@ -20,13 +21,13 @@ characterRequest.onreadystatechange = () => {
     output += `<li>Wisdom: ${character.wis}</li>`;
     output += `<li>Charisma: ${character.cha}</li>`;
     output += `<li>Power: ${character.power}</li>`;
-    output += `<li>Alignment1: ${character.alignment1}</li>`;
-    output += `<li>Alignment2: ${character.alignment2}</li>`;
+    output += `<li>Order: ${character.alignment2}</li>`;
+    output += `<li>Morality: ${character.alignment1}</li>`;
     output += `<p>Description: ${character.description}</p>`;
 
     document.getElementById('output').innerHTML = output;
     document.getElementById('output').className = '';
-    document.getElementById('characters').className = 'hidden';
+    document.getElementById('characters').className = '';
     document.getElementById('input').className = 'hidden';
   }
 };
@@ -43,13 +44,19 @@ characterListRequest.onreadystatechange = () => {
     }
 
     document.getElementById('characters').innerHTML = output;
+    
+  }
+  else if(characterListRequest.readyState === XMLHttpRequest.DONE
+    && characterListRequest.status === 204){
+    document.getElementById('characters').innerHTML = '<p>No characters found.</p>';
+    }
+    
     document.getElementById('output').className = 'hidden';
     document.getElementById('characters').className = '';
     document.getElementById('input').className = 'hidden';
-  }
 };
 function RequestCharacter(id) {
-  characterRequest.open('GET', url + id, true);
+  characterRequest.open('GET', characterUrl + id, true);
   characterRequest.setRequestHeader('Accept', 'application/json');
   characterRequest.send();
 }
@@ -64,9 +71,17 @@ function GetRadio(name) {
 }
 
 function UpdateList() {
-  characterListRequest.open('GET', characterListUrl, true);
-  characterListRequest.setRequestHeader('Accept', 'text/plain');
-  characterListRequest.send();
+  if (document.getElementById('s_select').value !== 'none') {
+    const url = `${characterListUrl}?${document.getElementById('s_select').value
+           }=${document.getElementById('s_search').value}`;
+    characterListRequest.open('GET', url, true);
+    characterListRequest.setRequestHeader('Accept', 'text/plain');
+    characterListRequest.send();
+  } else {
+    characterListRequest.open('GET', characterListUrl, true);
+    characterListRequest.setRequestHeader('Accept', 'text/plain');
+    characterListRequest.send();
+  }
 }
 
 function AddCharacter() {
@@ -99,6 +114,5 @@ function OpenForm() {
   document.getElementById('characters').className = 'hidden';
   document.getElementById('input').className = '';
 }
-
 
 UpdateList();
