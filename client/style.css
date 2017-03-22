@@ -1,0 +1,26 @@
+body {
+    font-family: "Verdana", "sans-serif";
+}
+
+.button {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+#description{
+    width: 500px;
+}
+
+#input{
+}
+
+#characters{
+    
+}
+
+#output{
+}
+
+.hidden {
+    display:none;
+}

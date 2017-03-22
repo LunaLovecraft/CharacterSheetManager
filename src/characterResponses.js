@@ -1,4 +1,5 @@
 const htmlHandler = require('./htmlResponses.js');
+const crypto = require('crypto');
 
 // Creating an example character to start so it's clear how they work.
 const characters = [];
@@ -20,17 +21,13 @@ characters.push(exampleCharacter);  // Characters can just be pushed the to arra
 
 // Gets the list of all characters.  Filters that list to certain query's if queries were used.
 const getCharacterList = (request, response, returnBody, urlParsed) => {
-  response.writeHead(200, { 'Content-Type': 'text/plain' });
-
-  if (!returnBody) {
-    response.end();
-    return;
-  }
-
   const queryList = urlParsed.query;
   const length = characters.length;
 
   const keys = Object.keys(queryList);
+
+  let emptyList = true;
+  let code = 200;
 
   let output = '[ ';// Spare space to take note of later.
   for (let i = 0; i < length; ++i) {
@@ -46,15 +43,29 @@ const getCharacterList = (request, response, returnBody, urlParsed) => {
 
     if (toBeAdded) {
       output += (`{"id": "${i}","name": "${characters[i].name}"},`);
+      emptyList = false;
     }
   }
   output = `${output.substring(0, output.length - 1)}]`;// Need to make sure that the comma
   // is removed afterwards.  If there are no results, then the spare space mentioned
   // previously will get eaten instead and it'll just be an empty array.
+
+  // Have to do this later here since we don't know the code to return yet.
+  if (emptyList) {
+    code = 204;
+  }
+
+  response.writeHead(code, { 'Content-Type': 'text/plain' });
+
+  if (!returnBody) {
+    response.end();
+    return;
+  }
+
   response.end(output);
 };
 
-// Gets a specific character's data by ID.
+// Gets a specific character's data by ID.  Caches character data.
 const getCharacter = (request, response, returnBody, id) => {
   const idInt = parseInt(id, 10);
 
@@ -64,14 +75,23 @@ const getCharacter = (request, response, returnBody, id) => {
     return;
   }
 
-  response.writeHead(200, { 'Content-Type': 'application/json' });
+  const hash = crypto.createHash('sha1');
+  hash.update(JSON.stringify(characters[idInt]));
+  const eTag = hash.digest('hex');
 
-  if (!returnBody) {
+  if (request.headers['if-none-match'] === eTag) {
+    response.writeHead(304, { 'Content-Type': 'application/json' });
+    response.end();
+  } else {
+    response.writeHead(200, { ETag: `${eTag}`, 'Content-Type': 'application/json' });
+
+    if (!returnBody) {
+      response.end();
+    }
+
+    response.write(JSON.stringify(characters[idInt]));
     response.end();
   }
-
-  response.write(JSON.stringify(characters[idInt]));
-  response.end();
 };
 
 // Adds a character's data to the matrix.

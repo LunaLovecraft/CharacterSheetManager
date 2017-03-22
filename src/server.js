@@ -11,7 +11,12 @@ const dataRequest = (request, response, returnBody) => {
   const thisUrl = url.parse(request.url, true);
 
   switch (thisUrl.pathname) {
-
+    case '/style.css':
+      htmlHandler.style(request, response, returnBody);
+      break;
+    case '/client.js':
+      htmlHandler.client(request, response, returnBody);
+      break;
     case '/characters':
       characterHandler.getCharacterList(request, response, returnBody, thisUrl);
       break;
